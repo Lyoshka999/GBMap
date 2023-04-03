@@ -13,8 +13,9 @@ class ViewModel {
     static let instance = ViewModel()
     private init(){}
     
+
     func saveRealm(count: UInt, coordinate: CLLocationCoordinate2D) {
-        let coordinateRealm = CoordinateRealm()
+        let coordinateRealm =  CoordinateRealm()
         coordinateRealm.uid = Int(count)
         coordinateRealm.latitude = coordinate.latitude
         coordinateRealm.longitude = coordinate.longitude
@@ -26,6 +27,7 @@ class ViewModel {
         for i in 0..<routePath.count() {
             saveRealm(count: i, coordinate: routePath.coordinate(at: i))
         }
+        
     }
     
     func deleteAllRealm() {
@@ -41,4 +43,21 @@ class ViewModel {
             }
         return routePath
     }
+
+    
+    func registrationUser(login: String, password: String) {
+        if RealmWork.instance.checkLogin(login: login) {
+            RealmWork.instance.replacePassword(login: login, password: password)
+        } else {
+            RealmWork.instance.registrationUser(login: login, password: password)
+        }
+            
+    }
+    
+    
+    
+    func loginUser(login: String, password: String) -> Bool {
+        RealmWork.instance.loginUser(login: login, password: password)
+    }
+    
 }

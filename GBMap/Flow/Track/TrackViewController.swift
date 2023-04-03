@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  TrackViewController.swift
 //  GBMap
 //
 //  Created by Алексей on 27.03.2023.
@@ -10,7 +10,9 @@ import GoogleMaps
 import CoreLocation
 import RealmSwift
 
-class ViewController: UIViewController {
+class TrackViewController: UIViewController {
+    
+    var trackviewModel: TrackViewModel?
     
     var coordinate = CLLocationCoordinate2D(latitude: 55.753215, longitude: 37.622504)
     var marker: GMSMarker?
@@ -20,6 +22,9 @@ class ViewController: UIViewController {
     
     var route = GMSPolyline()
     var routePath = GMSMutablePath()
+    
+//    var timer: Timer?
+//    var backgroundTask: UIBackgroundTaskIdentifier?
     
     var distantion = 0.0
     
@@ -62,7 +67,7 @@ class ViewController: UIViewController {
     
     @IBAction func didTapViewTrackButton(_ sender: UIButton) {
         if isTracking {
-            MesssageView.instance.alertMain(view: self, title: "Attention", message: "Запись трека остановлена")
+            MesssageView.instance.alertMain(view: self, title: "Attention", message: "Остановлена запись трека!")
             locationManager?.stopUpdatingLocation()
             isTracking = false
         }
@@ -176,7 +181,7 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: GMSMapViewDelegate {
+extension TrackViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         if let manualMarker = manualMarker {
             manualMarker.position = coordinate
@@ -187,7 +192,7 @@ extension ViewController: GMSMapViewDelegate {
     }
 }
 
-extension ViewController: CLLocationManagerDelegate {
+extension TrackViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         // Берём последнюю точку из полученного набора
         guard let location = locations.last else { return } // Добавляем её в путь маршрута
