@@ -34,6 +34,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-
+    func applicationWillResignActive(_ application: UIApplication) {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 1) {
+                self.window?.alpha = 0.2
+            }
+        }
+    }
+    
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 1) {
+                self.window?.alpha = 1
+            }
+        }
+        
+    }
 }
 
