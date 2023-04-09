@@ -11,6 +11,7 @@ class LoginViewModel {
     var appCoordinator: AppCoordinator?
     
     func gotoTrackController() {
+        appCoordinator?.navigationController.navigationBar.isHidden = true
         appCoordinator?.goToTackView()
     }
     
