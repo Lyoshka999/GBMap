@@ -8,6 +8,17 @@
 import UIKit
 import RealmSwift
 
+class MarkerRealm: Object {
+    @objc dynamic var uid: Int = 0
+    @objc dynamic var latitude: Double  = 0.0
+    @objc dynamic var longitude: Double = 0.0
+    @objc dynamic var image: String = ""
+    
+    override static func primaryKey() -> String? {
+        return "uid"
+    }
+    
+}
 
 class CoordinateRealm: Object {
     @objc dynamic var uid: Int = 0
@@ -38,6 +49,19 @@ class RealmWork {
     
     static var configuration = Realm.Configuration(deleteRealmIfMigrationNeeded: true)
     
+    func saveMarkerRealm(marker: [MarkerRealm]) {
+        do {
+            let realm = try Realm()
+            
+            try! realm.write {
+                realm.add(marker)
+            }
+            
+        } catch {
+            print("Realm saveItems error: \(error)")
+        }
+    }
+    
     func saveItems(coordinates: CoordinateRealm ) {
         do {
             let realm = try Realm()
@@ -47,7 +71,7 @@ class RealmWork {
             }
             
         } catch {
-            print("􀘰􀘰􀘰 Realm saveItems error: \(error)")
+            print("Realm saveItems error: \(error)")
         }
     }
     
@@ -57,8 +81,10 @@ class RealmWork {
             let realm = try Realm()
             
             let ret = realm.objects(CoordinateRealm.self)
+            let photo = realm.objects(MarkerRealm.self)
             try! realm.write {
                 realm.delete(ret)
+                realm.delete(photo)
             }
             
         } catch {
@@ -82,6 +108,21 @@ class RealmWork {
         return ret
     }
     
+    
+    func readMarkerRealm() -> [MarkerRealm] {
+        var ret = [MarkerRealm]()
+        
+        do {
+            let realm = try Realm()
+            
+            ret = Array(realm.objects(MarkerRealm.self))
+ 
+        } catch {
+            print("Realm readItems error: \(error)")
+        }
+        
+        return ret
+    }
     
     func checkLogin(login: String) -> Bool {
         var ret = false

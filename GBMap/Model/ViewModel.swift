@@ -13,7 +13,42 @@ class ViewModel {
     static let instance = ViewModel()
     private init(){}
     
-
+    func saveMarkerRealm(marker: [GMSMarker?]) {
+        var markerRealm = [MarkerRealm]()
+        var index = 0
+        marker.forEach{ val in
+            guard let val = val else {return}
+            let mark = MarkerRealm()
+            mark.uid = index
+            mark.latitude = val.position.latitude
+            mark.longitude = val.position.longitude
+            let nameImage = "\(index)"
+            mark.image = nameImage
+            DiskWork().saveImageToDisk(imageName: nameImage, image: val.icon ?? UIImage())
+            markerRealm.append(mark)
+            index = index + 1
+        }
+        
+        RealmWork.instance.saveMarkerRealm(marker: markerRealm)
+    }
+    
+    func readMarkerRealm() -> [GMSMarker?] {
+        var markerRealm = [GMSMarker?]()
+        let marker = RealmWork.instance.readMarkerRealm()
+        var index = 0
+        marker.forEach { val in
+            let mark = GMSMarker()
+            mark.position.latitude = val.latitude
+            mark.position.longitude = val.longitude
+            mark.icon = DiskWork().loadImageFromDisk(fileName: "\(index)" )
+            markerRealm.append(mark)
+            index = index + 1
+        }
+        
+        return markerRealm
+    }
+    
+    
     func saveRealm(count: UInt, coordinate: CLLocationCoordinate2D) {
         let coordinateRealm =  CoordinateRealm()
         coordinateRealm.uid = Int(count)
@@ -61,3 +96,4 @@ class ViewModel {
     }
     
 }
+

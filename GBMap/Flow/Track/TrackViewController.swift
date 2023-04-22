@@ -24,6 +24,7 @@ class TrackViewController: UIViewController {
     
     var marker: GMSMarker?
     var manualMarker: GMSMarker?
+    var photoMarker = [GMSMarker?]()
     
     var route = GMSPolyline()
     var routePath = GMSMutablePath()
@@ -32,6 +33,20 @@ class TrackViewController: UIViewController {
     
     let isTracking  = BehaviorRelay<Bool>(value: false)
 
+    @IBAction func takePicture(_ sender: UIButton) {
+        // Проверка, поддерживает ли устройство камеру
+        guard UIImagePickerController.isSourceTypeAvailable(.camera) else { return }
+        // Создаём контроллер и настраиваем его
+        let imagePickerController = UIImagePickerController()
+        // Источник изображений: камера
+        imagePickerController.sourceType = .camera
+        // Изображение можно редактировать
+        imagePickerController.allowsEditing = true
+        imagePickerController.delegate = self
+        // Показываем контроллер
+        present(imagePickerController, animated: true)
+    
+    }
     
     @IBOutlet weak var ledTrack: UIImageView!
     
@@ -44,6 +59,8 @@ class TrackViewController: UIViewController {
         if routePath.count() > 0 {
             ViewModel.instance.deleteAllRealm()
             ViewModel.instance.saveAllRealm(routePath: routePath)
+            ViewModel.instance.saveMarkerRealm(marker: photoMarker)
+            removePictureMarker()
             initTrack()
             isTracking.accept( false )
         }
@@ -63,6 +80,7 @@ class TrackViewController: UIViewController {
             locationManager.stopUpdatingLocation()
             isTracking.accept( false )
         }
+        viewPhotoMarker()
         viewTrack()
         viewAllTrack(routePath: ViewModel.instance.readAllRealm())
         
@@ -70,6 +88,7 @@ class TrackViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Do any additional setup after loading the view.
         
         ViewModel.instance.deleteAllRealm()
         
@@ -112,9 +131,44 @@ class TrackViewController: UIViewController {
 
     }
     
+    func addPictureMarker(image: UIImage) {
+       
+        guard let position = marker?.position,
+              let frameImage = UIImage(named: "picPointbl")
+        else {return}
+        
+        photoMarker.append(GMSMarker(position: position))
+        guard let last = photoMarker.last else {return}
+        
+        let imageView = drawImageToframeImage(image: image, frameImage: frameImage)
+        
+        last?.icon = imageView
+        last?.map = mapView
+    }
+    
+    func removePictureMarker() {
+        photoMarker.forEach({ body in
+            body?.map = nil
+        })
+        photoMarker.removeAll()
+    }
+    
     func removeMarker() {
         marker?.map = nil
         marker = nil
+    }
+    
+    
+    func viewPhotoMarker() {
+        removePictureMarker()
+        
+        photoMarker = ViewModel.instance.readMarkerRealm()
+        photoMarker.forEach { val in
+            let img = val?.icon?.imageResized(to: CGSize(width: 45, height: 57))
+            val?.icon = img
+            val?.map = mapView
+        }
+        
     }
     
     func viewAllTrack(routePath: GMSMutablePath) {
@@ -213,6 +267,41 @@ extension TrackViewController {
             }
             .bind(onNext: { self.distantionLabek.text = "Растояние: \($0) м"})
             .disposed(by: disposeBag)
+    }
+    
+}
+
+extension TrackViewController:  UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        // Если нажали на кнопку Отмена, то UIImagePickerController надо закрыть
+        picker.dismiss(animated: true)
+    }
+    
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+
+        // Закрываем UIImagePickerController
+        picker.dismiss(animated: true) { [weak self] in
+            // После того, как он закроется, извлечём изображение
+            guard let image = self?.extractImage(from: info) else { return }
+            // Если оно будет извлечено, выполним действие на его получение
+            
+            self?.addPictureMarker(image: image)
+            
+        }
+    }
+    
+    // Метод, извлекающий изображение
+    private func extractImage(from info: [UIImagePickerController.InfoKey: Any]) -> UIImage? {
+        // Пытаемся извлечь отредактированное изображение
+        if let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage {
+            return image
+        // Пытаемся извлечь оригинальное
+        } else
+            if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                return image
+            } else { return nil }
     }
     
 }

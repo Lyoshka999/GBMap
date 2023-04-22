@@ -11,6 +11,8 @@
 		1F50627C29E34A3A00D60926 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F50627B29E34A3A00D60926 /* LocationManager.swift */; };
 		1F50627E29E34B2B00D60926 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F50627D29E34B2B00D60926 /* Reachability.swift */; };
 		1F50628029EC644900D60926 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F50627F29EC644900D60926 /* NotificationManager.swift */; };
+		1F50628229F3AE2B00D60926 /* DiskWork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F50628129F3AE2B00D60926 /* DiskWork.swift */; };
+		1F50628429F3B32B00D60926 /* RoudingEdges.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F50628329F3B32B00D60926 /* RoudingEdges.swift */; };
 		1F5F800F29D196B20027B4B6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F800E29D196B20027B4B6 /* AppDelegate.swift */; };
 		1F5F801329D196B20027B4B6 /* TrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F801229D196B20027B4B6 /* TrackViewController.swift */; };
 		1F5F801629D196B20027B4B6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F5F801429D196B20027B4B6 /* Main.storyboard */; };
@@ -32,6 +34,8 @@
 		1F50627B29E34A3A00D60926 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		1F50627D29E34B2B00D60926 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		1F50627F29EC644900D60926 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
+		1F50628129F3AE2B00D60926 /* DiskWork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiskWork.swift; sourceTree = "<group>"; };
+		1F50628329F3B32B00D60926 /* RoudingEdges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoudingEdges.swift; sourceTree = "<group>"; };
 		1F5F800B29D196B20027B4B6 /* GBMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GBMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F5F800E29D196B20027B4B6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F5F801229D196B20027B4B6 /* TrackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +99,7 @@
 				1F5F801929D196B30027B4B6 /* LaunchScreen.storyboard */,
 				1F5F801C29D196B30027B4B6 /* Info.plist */,
 				1F50627F29EC644900D60926 /* NotificationManager.swift */,
+				1F50628329F3B32B00D60926 /* RoudingEdges.swift */,
 			);
 			path = GBMap;
 			sourceTree = "<group>";
@@ -104,6 +109,7 @@
 			children = (
 				1FD6BC3B29D73CB700C5DE9F /* Realm.swift */,
 				1FD6BC3D29D73F3F00C5DE9F /* ViewModel.swift */,
+				1F50628129F3AE2B00D60926 /* DiskWork.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -311,10 +317,12 @@
 				1F50627E29E34B2B00D60926 /* Reachability.swift in Sources */,
 				1FD6BC5329DB422E00C5DE9F /* LoginViewController.swift in Sources */,
 				1FD6BC4029D7408300C5DE9F /* MessageView.swift in Sources */,
+				1F50628429F3B32B00D60926 /* RoudingEdges.swift in Sources */,
 				1FD6BC3E29D73F3F00C5DE9F /* ViewModel.swift in Sources */,
 				1F5F801329D196B20027B4B6 /* TrackViewController.swift in Sources */,
 				1FD6BC4D29DB419D00C5DE9F /* RegistrationViewController.swift in Sources */,
 				1F5F800F29D196B20027B4B6 /* AppDelegate.swift in Sources */,
+				1F50628229F3AE2B00D60926 /* DiskWork.swift in Sources */,
 				1FD6BC4F29DB41E000C5DE9F /* RegistrationViewModel.swift in Sources */,
 				1FD6BC5129DB41FB00C5DE9F /* TrackViewModel.swift in Sources */,
 				1FD6BC5529DB425A00C5DE9F /* LoginViewModel.swift in Sources */,
